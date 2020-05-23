@@ -1,7 +1,7 @@
 # Dockerfile adapted from original confluence-server. Most of the portions are
 # kept as-is, with some reorganization done to reduce number of instructions
 # https://bitbucket.org/atlassian-docker/docker-atlassian-confluence-server/src
-FROM adoptopenjdk/openjdk8:hotspot
+FROM adoptopenjdk:hotspot
 MAINTAINER Shanti Naik <visitsb@gmail.com>
 
 ENV RUN_USER daemon
