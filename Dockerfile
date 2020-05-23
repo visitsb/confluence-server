@@ -36,12 +36,8 @@ RUN /usr/bin/apt-get update \
  && /bin/chmod +x /usr/local/bin/tini /usr/local/bin/entrypoint.sh \
  && /bin/mkdir -p ${CONFLUENCE_INSTALL_DIR} \
  && /bin/tar -xzvf ./atlassian-confluence-${CONFLUENCE_VERSION}.tar.gz --strip-components=1 -C "${CONFLUENCE_INSTALL_DIR}" \
+ && /bin/tar -xzvf ./mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.tar.gz --strip-components=1 -C ${CONFLUENCE_INSTALL_DIR}/confluence/WEB-INF/lib mysql-connector-java-${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}-bin.jar \
  && /bin/chown -R ${RUN_USER}:${RUN_GROUP} ${CONFLUENCE_INSTALL_DIR}/ \
- && /bin/tar -xzvf ./mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.tar.gz \
- && /bin/mv ./mysql-connector-java-${MYSQL_CONNECTOR_VERSION}/mysql-connector-java-${MYSQL_CONNECTOR_VERSION}-bin.jar ${CONFLUENCE_INSTALL_DIR}/confluence/WEB-INF/lib \
- && /bin/rm -f ./atlassian-confluence-${CONFLUENCE_VERSION}.tar.gz \
- && /bin/rm -f ./mysql-connector-java-${MYSQL_CONNECTOR_VERSION}.tar.gz \
- && /bin/rm -rf ./mysql-connector-java-${MYSQL_CONNECTOR_VERSION} \
  && /bin/sed -i -e 's/-Xms\([0-9]\+[kmg]\) -Xmx\([0-9]\+[kmg]\)/-Xms\${JVM_MINIMUM_MEMORY:=\1} -Xmx\${JVM_MAXIMUM_MEMORY:=\2} \${JVM_SUPPORT_RECOMMENDED_ARGS} -Dconfluence.home=\${CONFLUENCE_HOME}/g' ${CONFLUENCE_INSTALL_DIR}/bin/setenv.sh \
  && /bin/sed -i -e 's/port="8090"/port="8090" secure="${catalinaConnectorSecure}" scheme="${catalinaConnectorScheme}" proxyName="${catalinaConnectorProxyName}" proxyPort="${catalinaConnectorProxyPort}"/' ${CONFLUENCE_INSTALL_DIR}/conf/server.xml \
  && /bin/sed -i -e 's/Context path=""/Context path="${catalinaContextPath}"/' ${CONFLUENCE_INSTALL_DIR}/conf/server.xml
